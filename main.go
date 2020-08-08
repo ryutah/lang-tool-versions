@@ -13,13 +13,13 @@ import (
 type versionLoader func() (versions []string, err error)
 
 var versionLoaders = map[string]versionLoader{
-	"python":                 loadPythonVersions,
-	// "golang":                 loadGoVersions,
-	// "node":                   loadNodeVersions,
-	// "docker_compose":         loadDockerComposeVersions,
-	// "go_task_task":           loadGotaskTask,
-	// "golangci_golangci_lint": loadGolangciLint,
-	// "google_cloud_sdl":       loadGoogleCloudSDK,
+	"python":         loadPythonVersions,
+	"golang":         loadGoVersions,
+	"node":           loadNodeVersions,
+	"docker_compose": loadDockerComposeVersions,
+	"go_task_task":   loadGotaskTask,
+	"golangci_golangci_lint": loadGolangciLint,
+	"google_cloud_sdl":       loadGoogleCloudSDK,
 }
 
 func main() {
