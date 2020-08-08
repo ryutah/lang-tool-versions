@@ -1,0 +1,37 @@
+name: fetch_version
+
+on:
+  schedule:
+    - cron: "0 15 * * *" # なんとなく15時に実行
+
+jobs:
+  build:
+    container: ryutah/lang-tool-versions
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run a one-line script
+        run: echo Hello, world!
+      - name: upload versions file
+        uses: actions/upload-artifact@v1
+        with:
+          name: versions
+          path: versions.json
+
+  push_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: download versions file
+        uses: actions/download-artifact@master
+        with:
+          name: versions
+          path: versions.json
+      - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "chore: update versions" -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
