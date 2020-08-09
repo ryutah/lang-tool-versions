@@ -33,6 +33,7 @@ func main() {
 		if err != nil {
 			log.Fatalf("%+v", err)
 		}
+		sortVersions(versions)
 		results[name] = versions
 	}
 
