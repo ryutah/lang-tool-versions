@@ -6,6 +6,9 @@ import (
 	"io"
 	"log"
 	"os"
+	"sort"
+	"strconv"
+	"strings"
 
 	"github.com/pkg/errors"
 )
@@ -13,11 +16,11 @@ import (
 type versionLoader func() (versions []string, err error)
 
 var versionLoaders = map[string]versionLoader{
-	"python":         loadPythonVersions,
-	"golang":         loadGoVersions,
-	"node":           loadNodeVersions,
-	"docker_compose": loadDockerComposeVersions,
-	"go_task_task":   loadGotaskTask,
+	"python":                 loadPythonVersions,
+	"golang":                 loadGoVersions,
+	"node":                   loadNodeVersions,
+	"docker_compose":         loadDockerComposeVersions,
+	"go_task_task":           loadGotaskTask,
 	"golangci_golangci_lint": loadGolangciLint,
 	"google_cloud_sdl":       loadGoogleCloudSDK,
 }
@@ -67,4 +70,31 @@ func writeVersions(w io.Writer, versions nameVersions) (err error) {
 	}
 	err = bufw.Flush()
 	return
+}
+
+func sortVersions(versions []string) {
+	splitToParts := func(v string) (major, minor, patch int) {
+		parts := strings.Split(v, ".")
+		major, _ = strconv.Atoi(parts[0])
+		if len(parts) > 1 {
+			minor, _ = strconv.Atoi(parts[1])
+		}
+		if len(parts) > 2 {
+			patch, _ = strconv.Atoi(parts[2])
+		}
+		return
+	}
+
+	sort.Slice(versions, func(i, j int) bool {
+		imajor, iminor, ipatch := splitToParts(versions[i])
+		jmajor, jminor, jpatch := splitToParts(versions[j])
+
+		if imajor != jmajor {
+			return imajor > jmajor
+		}
+		if iminor != jminor {
+			return iminor > jminor
+		}
+		return ipatch > jpatch
+	})
 }
