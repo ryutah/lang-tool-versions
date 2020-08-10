@@ -22,7 +22,7 @@ var versionLoaders = map[string]versionLoader{
 	"docker_compose":         loadDockerComposeVersions,
 	"go_task_task":           loadGotaskTask,
 	"golangci_golangci_lint": loadGolangciLint,
-	"google_cloud_sdl":       loadGoogleCloudSDK,
+	"google_cloud_sdk":       loadGoogleCloudSDK,
 }
 
 func main() {
