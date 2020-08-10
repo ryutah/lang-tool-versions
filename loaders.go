@@ -76,6 +76,14 @@ func loadGolangciLint() ([]string, error) {
 	return extractAsVersions(tags, `^v(\d+\.\d+\.\d+)$`), nil
 }
 
+func loadRustVersions() ([]string, error) {
+	tags, err := sendGitHubListTagRequestForGetAll("rust-lang", "rust")
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+	return extractAsVersions(tags, `^(\d+\.\d+\.\d+)$`), nil
+}
+
 func extractAsVersions(tags []tagResponse, extractRule string) []string {
 	r := regexp.MustCompile(extractRule)
 	versions := make([]string, 0, len(tags))

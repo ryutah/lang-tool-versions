@@ -18,6 +18,7 @@ type versionLoader func() (versions []string, err error)
 var versionLoaders = map[string]versionLoader{
 	"python":                 loadPythonVersions,
 	"golang":                 loadGoVersions,
+	"rust":                   loadRustVersions,
 	"node":                   loadNodeVersions,
 	"docker_compose":         loadDockerComposeVersions,
 	"go_task_task":           loadGotaskTask,
