@@ -33,7 +33,7 @@ func loadGoVersions() ([]string, error) {
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
-	return extractAsVersions(tags, `^go(\d+\.\d+\.\d+)$`), nil
+	return extractAsVersions(tags, `^go(\d+\.\d+(?:\.\d+)?)$`), nil
 }
 
 func loadNodeVersions() ([]string, error) {
